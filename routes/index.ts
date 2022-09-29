@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { getTest } from "@controllers/test.controller";
+import sensorRouter from "./sensor";
 
 const router = Router();
 
-router.get("/router-test", getTest);
+router.use("/sensors", sensorRouter);
+// router.use("/sensors", sensorRouter);
 
 export { router };

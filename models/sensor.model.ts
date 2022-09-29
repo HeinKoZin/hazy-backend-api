@@ -7,11 +7,15 @@ import {
 } from "sequelize";
 import { sequelize } from ".";
 
-class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+class Sensor extends Model<
+	InferAttributes<Sensor>,
+	InferCreationAttributes<Sensor>
+> {
 	declare id: CreationOptional<string>;
-	declare name: string;
-	declare email: string;
-	declare password: string;
+	declare device_id: string;
+	declare lat: number;
+	declare lng: number;
+	declare pmValue: number;
 	// timestamps!
 	// createdAt can be undefined during creation
 	declare createdAt: CreationOptional<Date>;
@@ -19,23 +23,25 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
 	declare updatedAt: CreationOptional<Date>;
 }
 
-User.init(
+Sensor.init(
 	{
 		id: {
 			type: DataTypes.UUID,
 			defaultValue: DataTypes.UUIDV4,
 			primaryKey: true,
 		},
-		name: {
-			type: DataTypes.STRING,
-		},
-		email: {
+		device_id: {
 			type: DataTypes.STRING,
 			unique: true,
-			allowNull: false,
 		},
-		password: {
-			type: DataTypes.STRING,
+		lng: {
+			type: DataTypes.DOUBLE,
+		},
+		lat: {
+			type: DataTypes.DOUBLE,
+		},
+		pmValue: {
+			type: DataTypes.INTEGER,
 		},
 		createdAt: {
 			type: DataTypes.DATE,
@@ -44,11 +50,11 @@ User.init(
 			type: DataTypes.DATE,
 		},
 	},
-	{ sequelize, tableName: "users" }
+	{ sequelize, tableName: "sensors" }
 );
 
 (async () => {
 	await sequelize.sync();
 })();
 
-export default User;
+export default Sensor;
